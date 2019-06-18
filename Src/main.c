@@ -44,14 +44,22 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "OLED_SPI.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+#define OLED_SIZE 28
+uint16_t COLOR = WHITE;//默认颜色白色
+static char average_buffer[8]={0},
+						bulletSpeed_buffer[8]={0},
+						n_buffer[8]={0}, 
+						n_block_buffer[8]={0}, 
+						friction_spe_set_buffer[8] = {0}, 
+						variance_buffer[8] = {0},
+						magazine_speed_buffer[8] = {0};//OLED刷新数据缓冲池
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -98,13 +106,20 @@ int main(void)
   MX_CAN_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-
+	CHIP_SELECTED();//片选信号
+	InitST7735S();//OLED主控初始化
+	BIAS_LIGHT_ON();//背景光开
+	Display_Purity_Color(BLACK);//清屏
+	OLED_Display_ON();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		OLED_ShowString(0, 0, (char*)"speed", OLED_SIZE, COLOR, PURITY);
+		OLED_ShowString(0, OLED_SIZE, (char*)"abcdefg", OLED_SIZE, COLOR, PURITY);
+		OLED_ShowString(0, OLED_SIZE*2, (char*)"dsfggg", OLED_SIZE, COLOR, PURITY);
 
   /* USER CODE END WHILE */
 
