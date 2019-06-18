@@ -10,13 +10,13 @@
 
 #include "My_CAN.h"
 #include "can.h"
+#include <string.h>
 
-static uint8_t data[8];//接收数据缓冲区
+MonitorData_t MonitorData;
 
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan)
 {
-	for(uint8_t i=0; i<8; i++)
-		data[i] = hcan->pRxMsg->Data[i];
+	memcpy(&MonitorData, hcan->pRxMsg->Data, 8);
 }
 
 
