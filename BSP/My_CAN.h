@@ -36,4 +36,6 @@ typedef struct{//从裁判系统获取到的云台需要的数据
 }MonitorData_t;//设备在线数据
 extern MonitorData_t MonitorData;
 
+void CAN_Init(void);
+
 #endif

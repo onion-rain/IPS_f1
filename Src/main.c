@@ -106,6 +106,7 @@ int main(void)
   MX_CAN_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
+	CAN_Init();
 	CHIP_SELECTED();//片选信号
 	InitST7735S();//OLED主控初始化
 	BIAS_LIGHT_ON();//背景光开
