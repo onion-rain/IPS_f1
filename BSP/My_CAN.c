@@ -13,16 +13,20 @@
 #include <string.h>
 
 MonitorData_t MonitorData;
+uint8_t Online_flag = 0;//已连接到主控标志
+uint32_t Last_update_tick;//上次更新时间
 
 CanRxMsgTypeDef RxMessage;
 
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan)
 {
-	 __HAL_CAN_ENABLE_IT(hcan, CAN_IT_FMP0);
-	 if(hcan->pRxMsg->StdId == 0x301)
-	 {
-			memcpy(&MonitorData, hcan->pRxMsg->Data, 8);
-	 }
+	__HAL_CAN_ENABLE_IT(hcan, CAN_IT_FMP0);
+	if(hcan->pRxMsg->StdId == 0x301)
+	{
+		Online_flag = 1;
+		Last_update_tick = HAL_GetTick();
+		memcpy(&MonitorData, hcan->pRxMsg->Data, 8);
+	}
 }
 
 void CAN_FilterConfig(void)

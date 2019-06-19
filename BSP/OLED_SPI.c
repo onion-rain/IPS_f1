@@ -340,7 +340,7 @@ uint32_t oled_pow(uint8_t m,uint8_t n)
 	* @param	[in] y y轴起始位置(0~105)
 	* @param	[in] num 要显示的数字
 	* @param	[in] len 数字位数
-	* @param	[in] num_size 字号(8/16)
+	* @param	[in] num_size 字号(8/16/28)
 	* @param	[in] chr_color 字符颜色(仅纯色模式有效)
 	* @param	[in] chr_color_mode 字符颜色模式
   *					This parameter can be one of the following values:
@@ -376,7 +376,7 @@ void OLED_ShowNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len,
 	* @param	[in] x x轴起始位置(0~160)
 	* @param	[in] y y轴起始位置(0~105)
 	* @param	[in] *chr 要显示的字符串指针
-	* @param	[in] chr_size 字号(8/16)
+	* @param	[in] chr_size 字号(8/16/28)
 	* @param	[in] chr_color 字符颜色(仅纯色模式有效)
 	* @param	[in] chr_color_mode 字符颜色模式
   *					This parameter can be one of the following values:
@@ -395,7 +395,9 @@ void OLED_ShowString(uint8_t x, uint8_t y, char *chr,
 	while (chr[j] != '\0')
 	{
 		OLED_ShowChar(x, y, chr[j], chr_size, chr_color, chr_color_mode);
-		x += chr_size/2;
+		if(chr_size == 8)
+			x += 6;
+		else x += chr_size/2;
 		if(x+chr_size/2 > X_MAX)
 		{
 			x = 0;

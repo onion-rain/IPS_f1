@@ -45,13 +45,14 @@
 
 /* USER CODE BEGIN Includes */
 #include "OLED_SPI.h"
+#include "My_CAN.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-#define OLED_SIZE 28
+#define OLED_SIZE 16 
 uint16_t COLOR = WHITE;//Ä¬ÈÏÑÕÉ«°×É«
 static char average_buffer[8]={0},
 						bulletSpeed_buffer[8]={0},
@@ -118,9 +119,77 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		OLED_ShowString(0, 0, (char*)"speed", OLED_SIZE, COLOR, PURITY);
-		OLED_ShowString(0, OLED_SIZE, (char*)"abcdefg", OLED_SIZE, COLOR, PURITY);
-		OLED_ShowString(0, OLED_SIZE*2, (char*)"dsfggg", OLED_SIZE, COLOR, PURITY);
+		if(HAL_GetTick()-Last_update_tick > 200)
+			Online_flag = 0;
+		
+		if(Online_flag)
+		{
+			if(MonitorData.Cloud_Pitch_OutofContact)
+				OLED_ShowString(0, 0, (char*)"Pitch", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(0, 0, (char*)"Pitch", OLED_SIZE, CYAN, PURITY);
+			
+			if(MonitorData.Cloud_Yaw_OutofContact)
+				OLED_ShowString(0, OLED_SIZE, (char*)"Yaw  ", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(0, OLED_SIZE, (char*)"Yaw  ", OLED_SIZE, CYAN, PURITY);
+			
+			if(MonitorData.Cloud_Magzine_OutofContact)
+				OLED_ShowString(0, OLED_SIZE*2, (char*)"Magaz", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(0, OLED_SIZE*2, (char*)"Magaz", OLED_SIZE, CYAN, PURITY);
+			
+			if(MonitorData.Cloud_Fric_l_OutofContact)
+				OLED_ShowString(0, OLED_SIZE*3, (char*)"Fricl", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(0, OLED_SIZE*3, (char*)"Fricl", OLED_SIZE, CYAN, PURITY);
+			
+			if(MonitorData.Cloud_Fric_r_OutofContact)
+				OLED_ShowString(0, OLED_SIZE*4, (char*)"Fricr", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(0, OLED_SIZE*4, (char*)"Fricr", OLED_SIZE, CYAN, PURITY);
+			
+			
+			if(MonitorData.ChassisOutofContact)
+				OLED_ShowString(50, 0, (char*)"Chassis", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(50, 0, (char*)"Chassis", OLED_SIZE, CYAN, PURITY);
+			
+			if(MonitorData.Wheel_LF_OutofContact)
+				OLED_ShowString(50, OLED_SIZE, (char*)"Motor1", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(50, OLED_SIZE, (char*)"Motor1", OLED_SIZE, CYAN, PURITY);
+			
+			if(MonitorData.Wheel_RF_OutofContact)
+				OLED_ShowString(50, OLED_SIZE*2, (char*)"Motor2", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(50, OLED_SIZE*2, (char*)"Motor2", OLED_SIZE, CYAN, PURITY);
+			
+			if(MonitorData.Wheel_LB_OutofContact)
+				OLED_ShowString(50, OLED_SIZE*3, (char*)"Motor3", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(50, OLED_SIZE*3, (char*)"Motor3", OLED_SIZE, CYAN, PURITY);
+			
+			if(MonitorData.Wheel_RB_OutofContact)
+				OLED_ShowString(50, OLED_SIZE*4, (char*)"Motor4", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(50, OLED_SIZE*4, (char*)"Motor4", OLED_SIZE, CYAN, PURITY);
+			
+			
+			if(MonitorData.VisionOutofContact)
+				OLED_ShowString(110, 0, (char*)"Vision", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(110, 0, (char*)"Vision", OLED_SIZE, CYAN, PURITY);
+			
+			if(MonitorData.DbusOutofContact)
+				OLED_ShowString(110, OLED_SIZE, (char*)"Dbus", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(110, OLED_SIZE, (char*)"Dbus", OLED_SIZE, CYAN, PURITY);
+			
+			if(MonitorData.JudgementOutofContact)
+				OLED_ShowString(110, OLED_SIZE*2, (char*)"Judge", OLED_SIZE, MAGENTA, PURITY);
+			else OLED_ShowString(110, OLED_SIZE*2, (char*)"Judge", OLED_SIZE, CYAN, PURITY);
+			
+//			if(MonitorData.Cloud_Yaw_OutofContact)
+//				OLED_ShowString(110, OLED_SIZE*3, (char*)"hhh", OLED_SIZE, MAGENTA, PURITY);
+//			else OLED_ShowString(110, OLED_SIZE*3, (char*)"hhh", OLED_SIZE, CYAN, PURITY);
+//			
+//			if(MonitorData.Cloud_Yaw_OutofContact)
+//				OLED_ShowString(110, OLED_SIZE*4, (char*)"hhh", OLED_SIZE, MAGENTA, PURITY);
+//			else OLED_ShowString(110, OLED_SIZE*4, (char*)"hhh", OLED_SIZE, CYAN, PURITY);
+		}else
+		{
+			OLED_ShowString(20, 15, (char*)"CLOUD", 28, YELLOW, PURITY);
+			OLED_ShowString(40, 44, (char*)"OFFLINE", 28, YELLOW, PURITY);
+		}
 
   /* USER CODE END WHILE */
 

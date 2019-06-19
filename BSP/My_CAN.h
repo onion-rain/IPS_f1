@@ -36,6 +36,9 @@ typedef struct{//从裁判系统获取到的云台需要的数据
 }MonitorData_t;//设备在线数据
 extern MonitorData_t MonitorData;
 
+extern uint8_t Online_flag;//已连接到主控标志
+extern uint32_t Last_update_tick;//上次更新时间
+
 void CAN_Init(void);
 
 #endif
