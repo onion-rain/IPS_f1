@@ -125,65 +125,65 @@ int main(void)
 		if(Online_flag)
 		{
 			if(MonitorData.Cloud_Pitch_OutofContact)
-				OLED_ShowString(0, 0, (char*)"Pitch", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(0, 0, (char*)"Pitch", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(0, 0, (char*)"Pitch", OLED_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Cloud_Yaw_OutofContact)
-				OLED_ShowString(0, OLED_SIZE, (char*)"Yaw  ", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(0, OLED_SIZE, (char*)"Yaw  ", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(0, OLED_SIZE, (char*)"Yaw  ", OLED_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Cloud_Magzine_OutofContact)
-				OLED_ShowString(0, OLED_SIZE*2, (char*)"Magaz", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(0, OLED_SIZE*2, (char*)"Magaz", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(0, OLED_SIZE*2, (char*)"Magaz", OLED_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Cloud_Fric_l_OutofContact)
-				OLED_ShowString(0, OLED_SIZE*3, (char*)"Fricl", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(0, OLED_SIZE*3, (char*)"Fricl", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(0, OLED_SIZE*3, (char*)"Fricl", OLED_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Cloud_Fric_r_OutofContact)
-				OLED_ShowString(0, OLED_SIZE*4, (char*)"Fricr", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(0, OLED_SIZE*4, (char*)"Fricr", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(0, OLED_SIZE*4, (char*)"Fricr", OLED_SIZE, CYAN, PURITY);
 			
 			
 			if(MonitorData.ChassisOutofContact)
-				OLED_ShowString(50, 0, (char*)"Chassis", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(50, 0, (char*)"Chassis", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(50, 0, (char*)"Chassis", OLED_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Wheel_LF_OutofContact)
-				OLED_ShowString(50, OLED_SIZE, (char*)"Motor1", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(50, OLED_SIZE, (char*)"Motor1", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(50, OLED_SIZE, (char*)"Motor1", OLED_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Wheel_RF_OutofContact)
-				OLED_ShowString(50, OLED_SIZE*2, (char*)"Motor2", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(50, OLED_SIZE*2, (char*)"Motor2", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(50, OLED_SIZE*2, (char*)"Motor2", OLED_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Wheel_LB_OutofContact)
-				OLED_ShowString(50, OLED_SIZE*3, (char*)"Motor3", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(50, OLED_SIZE*3, (char*)"Motor3", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(50, OLED_SIZE*3, (char*)"Motor3", OLED_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Wheel_RB_OutofContact)
-				OLED_ShowString(50, OLED_SIZE*4, (char*)"Motor4", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(50, OLED_SIZE*4, (char*)"Motor4", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(50, OLED_SIZE*4, (char*)"Motor4", OLED_SIZE, CYAN, PURITY);
 			
 			
 			if(MonitorData.VisionOutofContact)
-				OLED_ShowString(110, 0, (char*)"Vision", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(110, 0, (char*)"Vision", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(110, 0, (char*)"Vision", OLED_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.DbusOutofContact)
-				OLED_ShowString(110, OLED_SIZE, (char*)"Dbus", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(110, OLED_SIZE, (char*)"Dbus", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(110, OLED_SIZE, (char*)"Dbus", OLED_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.JudgementOutofContact)
-				OLED_ShowString(110, OLED_SIZE*2, (char*)"Judge", OLED_SIZE, MAGENTA, PURITY);
+				OLED_ShowString(110, OLED_SIZE*2, (char*)"Judge", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 			else OLED_ShowString(110, OLED_SIZE*2, (char*)"Judge", OLED_SIZE, CYAN, PURITY);
 			
 //			if(MonitorData.Cloud_Yaw_OutofContact)
-//				OLED_ShowString(110, OLED_SIZE*3, (char*)"hhh", OLED_SIZE, MAGENTA, PURITY);
+//				OLED_ShowString(110, OLED_SIZE*3, (char*)"hhh", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 //			else OLED_ShowString(110, OLED_SIZE*3, (char*)"hhh", OLED_SIZE, CYAN, PURITY);
 //			
 //			if(MonitorData.Cloud_Yaw_OutofContact)
-//				OLED_ShowString(110, OLED_SIZE*4, (char*)"hhh", OLED_SIZE, MAGENTA, PURITY);
+//				OLED_ShowString(110, OLED_SIZE*4, (char*)"hhh", OLED_SIZE, MAGENTA|YELLOW, PURITY);
 //			else OLED_ShowString(110, OLED_SIZE*4, (char*)"hhh", OLED_SIZE, CYAN, PURITY);
 		}else
 		{
