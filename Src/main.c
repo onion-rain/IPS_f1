@@ -41,10 +41,11 @@
 #include "stm32f1xx_hal.h"
 #include "can.h"
 #include "spi.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-#include "OLED_SPI.h"
+#include "IPS_SPI.h"
 #include "My_CAN.h"
 /* USER CODE END Includes */
 
@@ -52,7 +53,8 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-#define OLED_SIZE 16 
+#define IPS_SIZE 16 
+#define LIGHT_LEVEL 200 
 uint16_t COLOR = WHITE;//默认颜色白色
 static char average_buffer[8]={0},
 						bulletSpeed_buffer[8]={0},
@@ -60,7 +62,7 @@ static char average_buffer[8]={0},
 						n_block_buffer[8]={0}, 
 						friction_spe_set_buffer[8] = {0}, 
 						variance_buffer[8] = {0},
-						magazine_speed_buffer[8] = {0};//OLED刷新数据缓冲池
+						magazine_speed_buffer[8] = {0};//IPS刷新数据缓冲池
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -106,89 +108,93 @@ int main(void)
   MX_GPIO_Init();
   MX_CAN_Init();
   MX_SPI1_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 	CAN_Init();
 	CHIP_SELECTED();//片选信号
-	InitST7735S();//OLED主控初始化
-	BIAS_LIGHT_ON();//背景光开
+	InitST7735S();//IPS主控初始化
+	LIGHT_LEVEL_SET(LIGHT_LEVEL);
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
 	Display_Purity_Color(BLACK);//清屏
-	OLED_Display_ON();
+	IPS_Display_ON();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+//		HAL_GPIO_TogglePin(IPS_BLK_GPIO_Port, IPS_BLK_Pin);
+		
 		if(HAL_GetTick()-Last_update_tick > 200)
 			Online_flag = 0;
 		
 		if(Online_flag)
 		{
 			if(MonitorData.Cloud_Pitch_OutofContact)
-				OLED_ShowString(0, 0, (char*)"Pitch", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(0, 0, (char*)"Pitch", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(0, 0, (char*)"Pitch", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(0, 0, (char*)"Pitch", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Cloud_Yaw_OutofContact)
-				OLED_ShowString(0, OLED_SIZE, (char*)"Yaw  ", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(0, OLED_SIZE, (char*)"Yaw  ", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(0, IPS_SIZE, (char*)"Yaw  ", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(0, IPS_SIZE, (char*)"Yaw  ", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Cloud_Magzine_OutofContact)
-				OLED_ShowString(0, OLED_SIZE*2, (char*)"Magaz", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(0, OLED_SIZE*2, (char*)"Magaz", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(0, IPS_SIZE*2, (char*)"Magaz", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(0, IPS_SIZE*2, (char*)"Magaz", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Cloud_Fric_l_OutofContact)
-				OLED_ShowString(0, OLED_SIZE*3, (char*)"Fricl", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(0, OLED_SIZE*3, (char*)"Fricl", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(0, IPS_SIZE*3, (char*)"Fricl", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(0, IPS_SIZE*3, (char*)"Fricl", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Cloud_Fric_r_OutofContact)
-				OLED_ShowString(0, OLED_SIZE*4, (char*)"Fricr", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(0, OLED_SIZE*4, (char*)"Fricr", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(0, IPS_SIZE*4, (char*)"Fricr", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(0, IPS_SIZE*4, (char*)"Fricr", IPS_SIZE, CYAN, PURITY);
 			
 			
 			if(MonitorData.ChassisOutofContact)
-				OLED_ShowString(50, 0, (char*)"Chassis", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(50, 0, (char*)"Chassis", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(50, 0, (char*)"Chassis", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(50, 0, (char*)"Chassis", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Wheel_LF_OutofContact)
-				OLED_ShowString(50, OLED_SIZE, (char*)"Motor1", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(50, OLED_SIZE, (char*)"Motor1", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(50, IPS_SIZE, (char*)"Motor1", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(50, IPS_SIZE, (char*)"Motor1", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Wheel_RF_OutofContact)
-				OLED_ShowString(50, OLED_SIZE*2, (char*)"Motor2", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(50, OLED_SIZE*2, (char*)"Motor2", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(50, IPS_SIZE*2, (char*)"Motor2", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(50, IPS_SIZE*2, (char*)"Motor2", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Wheel_LB_OutofContact)
-				OLED_ShowString(50, OLED_SIZE*3, (char*)"Motor3", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(50, OLED_SIZE*3, (char*)"Motor3", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(50, IPS_SIZE*3, (char*)"Motor3", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(50, IPS_SIZE*3, (char*)"Motor3", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.Wheel_RB_OutofContact)
-				OLED_ShowString(50, OLED_SIZE*4, (char*)"Motor4", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(50, OLED_SIZE*4, (char*)"Motor4", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(50, IPS_SIZE*4, (char*)"Motor4", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(50, IPS_SIZE*4, (char*)"Motor4", IPS_SIZE, CYAN, PURITY);
 			
 			
 			if(MonitorData.VisionOutofContact)
-				OLED_ShowString(110, 0, (char*)"Vision", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(110, 0, (char*)"Vision", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(110, 0, (char*)"Vision", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(110, 0, (char*)"Vision", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.DbusOutofContact)
-				OLED_ShowString(110, OLED_SIZE, (char*)"Dbus", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(110, OLED_SIZE, (char*)"Dbus", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(110, IPS_SIZE, (char*)"Dbus", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(110, IPS_SIZE, (char*)"Dbus", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.JudgementOutofContact)
-				OLED_ShowString(110, OLED_SIZE*2, (char*)"Judge", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-			else OLED_ShowString(110, OLED_SIZE*2, (char*)"Judge", OLED_SIZE, CYAN, PURITY);
+				IPS_ShowString(110, IPS_SIZE*2, (char*)"Judge", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(110, IPS_SIZE*2, (char*)"Judge", IPS_SIZE, CYAN, PURITY);
 			
 //			if(MonitorData.Cloud_Yaw_OutofContact)
-//				OLED_ShowString(110, OLED_SIZE*3, (char*)"hhh", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-//			else OLED_ShowString(110, OLED_SIZE*3, (char*)"hhh", OLED_SIZE, CYAN, PURITY);
+//				IPS_ShowString(110, IPS_SIZE*3, (char*)"hhh", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+//			else IPS_ShowString(110, IPS_SIZE*3, (char*)"hhh", IPS_SIZE, CYAN, PURITY);
 //			
 //			if(MonitorData.Cloud_Yaw_OutofContact)
-//				OLED_ShowString(110, OLED_SIZE*4, (char*)"hhh", OLED_SIZE, MAGENTA|YELLOW, PURITY);
-//			else OLED_ShowString(110, OLED_SIZE*4, (char*)"hhh", OLED_SIZE, CYAN, PURITY);
+//				IPS_ShowString(110, IPS_SIZE*4, (char*)"hhh", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+//			else IPS_ShowString(110, IPS_SIZE*4, (char*)"hhh", IPS_SIZE, CYAN, PURITY);
 		}else
 		{
-			OLED_ShowString(20, 15, (char*)"CLOUD", 28, YELLOW, PURITY);
-			OLED_ShowString(40, 44, (char*)"OFFLINE", 28, YELLOW, PURITY);
+			IPS_ShowString(20, 15, (char*)"CLOUD", 28, YELLOW, PURITY);
+			IPS_ShowString(40, 44, (char*)"OFFLINE", 28, YELLOW, PURITY);
 		}
 
   /* USER CODE END WHILE */

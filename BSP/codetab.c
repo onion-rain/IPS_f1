@@ -1,5 +1,5 @@
 /** 
-	* @brief    OLED×Ö¿â
+	* @brief    IPS×Ö¿â
 	* @details  This is the detail description. 
 	* @author   Onion rain
 	* @date     2018.10.15 

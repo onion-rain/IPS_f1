@@ -1,5 +1,5 @@
 /** 
-	* @brief    OLED BSP
+	* @brief    IPS BSP
 	* @details  Main IC: ST7735S
 							8080 MPU 8-bit Parallel
 	* @author   Onion rain
@@ -9,7 +9,7 @@
 	* @par 日志	
 	*			V	0.0	首次发布
 */
-#include "OLED_SPI.h"
+#include "IPS_SPI.h"
 #include <stdlib.h>
 #include "codetab.h"
 
@@ -215,12 +215,12 @@ void gray16(void)//Display 16TH Gray
 	}
 }
 
-void OLED_Display_ON(void)
+void IPS_Display_ON(void)
 {
 		WriteCommand(DISPLAY_ON);
 }
 
-void OLED_Display_OFF(void)
+void IPS_Display_OFF(void)
 {
 		WriteCommand(DISPLAY_OFF);
 }
@@ -241,7 +241,7 @@ void OLED_Display_OFF(void)
 	*         @arg GRADIENT_COLOR:渐变灯效
 	*         @arg RUNNING_WATER:	流水灯效
 	*/
-void OLED_ShowChar(uint8_t x, uint8_t y, uint8_t chr,
+void IPS_ShowChar(uint8_t x, uint8_t y, uint8_t chr,
 	uint8_t chr_size, uint16_t chr_color, uint8_t chr_color_mode)
 {
 	y += chr_size;
@@ -352,7 +352,7 @@ uint32_t oled_pow(uint8_t m,uint8_t n)
 	*         @arg GRADIENT_COLOR:渐变灯效
 	*         @arg RUNNING_WATER:	流水灯效
 	*/
-void OLED_ShowNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len,
+void IPS_ShowNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len,
 	uint8_t num_size, uint16_t chr_color, uint8_t chr_color_mode)
 {
 	uint8_t digit_index/*数位指针*/, remainder/*余数*/;
@@ -364,11 +364,11 @@ void OLED_ShowNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len,
 		{
 			if(remainder==0)
 			{
-				OLED_ShowChar(x+(num_size/2)*digit_index, y ,' ', num_size, chr_color, chr_color_mode);
+				IPS_ShowChar(x+(num_size/2)*digit_index, y ,' ', num_size, chr_color, chr_color_mode);
 				continue;
 			}else enshow = 1;
 		}
-	 	OLED_ShowChar(x+(num_size/2)*digit_index, y, remainder+'0', num_size, chr_color, chr_color_mode);
+	 	IPS_ShowChar(x+(num_size/2)*digit_index, y, remainder+'0', num_size, chr_color, chr_color_mode);
 	}
 }
 
@@ -388,13 +388,13 @@ void OLED_ShowNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len,
 	*         @arg GRADIENT_COLOR:渐变灯效
 	*         @arg RUNNING_WATER:	流水灯效
 	*/
-void OLED_ShowString(uint8_t x, uint8_t y, char *chr,
+void IPS_ShowString(uint8_t x, uint8_t y, char *chr,
 	uint8_t chr_size, int16_t chr_color, uint8_t chr_color_mode)
 {
 	uint8_t j = 0;
 	while (chr[j] != '\0')
 	{
-		OLED_ShowChar(x, y, chr[j], chr_size, chr_color, chr_color_mode);
+		IPS_ShowChar(x, y, chr[j], chr_size, chr_color, chr_color_mode);
 		if(chr_size == 8)
 			x += 6;
 		else x += chr_size/2;
