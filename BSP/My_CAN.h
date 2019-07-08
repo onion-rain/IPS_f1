@@ -28,7 +28,8 @@ typedef struct{//从裁判系统获取到的云台需要的数据
 	uint8_t Cloud_Yaw_OutofContact : 1;
 	uint8_t Cloud_Pitch_OutofContact : 1;
 	uint8_t Cloud_Magzine_OutofContact : 1;
-	uint8_t x : 3;
+	uint8_t ChhaasisJudgementOutofContact : 1;
+	uint8_t x : 2;
 	
 	uint16_t a;
 	uint16_t b;

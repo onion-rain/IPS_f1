@@ -184,9 +184,9 @@ int main(void)
 				IPS_ShowString(110, IPS_SIZE*2, (char*)"Judge", IPS_SIZE, MAGENTA|YELLOW, PURITY);
 			else IPS_ShowString(110, IPS_SIZE*2, (char*)"Judge", IPS_SIZE, CYAN, PURITY);
 			
-//			if(MonitorData.Cloud_Yaw_OutofContact)
-//				IPS_ShowString(110, IPS_SIZE*3, (char*)"hhh", IPS_SIZE, MAGENTA|YELLOW, PURITY);
-//			else IPS_ShowString(110, IPS_SIZE*3, (char*)"hhh", IPS_SIZE, CYAN, PURITY);
+			if(MonitorData.ChhaasisJudgementOutofContact)
+				IPS_ShowString(110, IPS_SIZE*3, (char*)"Judge", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(110, IPS_SIZE*3, (char*)"hhh", IPS_SIZE, CYAN, PURITY);
 //			
 //			if(MonitorData.Cloud_Yaw_OutofContact)
 //				IPS_ShowString(110, IPS_SIZE*4, (char*)"hhh", IPS_SIZE, MAGENTA|YELLOW, PURITY);
