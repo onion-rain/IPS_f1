@@ -14,26 +14,29 @@
 #include "stm32f1xx_hal.h"
 
 typedef struct{//从裁判系统获取到的云台需要的数据
-	uint8_t DbusOutofContact : 1;
-	uint8_t ChassisOutofContact : 1;
-	uint8_t JudgementOutofContact : 1;
-	uint8_t VisionOutofContact : 1;
-	uint8_t Wheel_LF_OutofContact : 1;
-	uint8_t Wheel_RF_OutofContact : 1;
-	uint8_t Wheel_LB_OutofContact : 1;
-	uint8_t Wheel_RB_OutofContact : 1;
 	
-	uint8_t Cloud_Fric_l_OutofContact : 1;
-	uint8_t Cloud_Fric_r_OutofContact : 1;
-	uint8_t Cloud_Yaw_OutofContact : 1;
-	uint8_t Cloud_Pitch_OutofContact : 1;
-	uint8_t Cloud_Magzine_OutofContact : 1;
-	uint8_t ChhaasisJudgementOutofContact : 1;
-	uint8_t x : 2;
+	uint32_t DbusOutofContact : 1;
+	uint32_t ChassisOutofContact : 1;
+	uint32_t JudgementOutofContact : 1;
+	uint32_t VisionOutofContact : 1;
+	uint32_t Wheel_LF_OutofContact : 1;
+	uint32_t Wheel_RF_OutofContact : 1;
+	uint32_t Wheel_LB_OutofContact : 1;
+	uint32_t Wheel_RB_OutofContact : 1;
 	
-	uint16_t a;
-	uint16_t b;
-	uint16_t c;
+	uint32_t Cloud_Fric_l_OutofContact : 1;
+	uint32_t Cloud_Fric_r_OutofContact : 1;
+	uint32_t Cloud_Yaw_OutofContact : 1;
+	uint32_t Cloud_Pitch_OutofContact : 1;
+	uint32_t Cloud_Magzine_OutofContact : 1;
+	uint32_t ChassisJudgementOutofContact : 1;
+	uint32_t CloudJudgementRepaired : 1;
+	uint32_t ChassisJudgementRepaired : 1;
+	
+	uint32_t TFCardOutofContact : 1;
+	uint32_t a : 15;
+	
+	uint32_t b;
 }MonitorData_t;//设备在线数据
 extern MonitorData_t MonitorData;
 

@@ -181,19 +181,25 @@ int main(void)
 			else IPS_ShowString(110, IPS_SIZE, (char*)"Dbus", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.JudgementOutofContact)
-				IPS_ShowString(110, IPS_SIZE*2, (char*)"Judge", IPS_SIZE, MAGENTA|YELLOW, PURITY);
-			else IPS_ShowString(110, IPS_SIZE*2, (char*)"Judge", IPS_SIZE, CYAN, PURITY);
+			{
+				if(MonitorData.CloudJudgementRepaired)
+					IPS_ShowString(110, IPS_SIZE*2, (char*)"JudgeU", IPS_SIZE, YELLOW, PURITY);
+				else IPS_ShowString(110, IPS_SIZE*2, (char*)"JudgeU", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			}else IPS_ShowString(110, IPS_SIZE*2, (char*)"JudgeU", IPS_SIZE, CYAN, PURITY);
 			
-			if(MonitorData.ChhaasisJudgementOutofContact)
-				IPS_ShowString(110, IPS_SIZE*3, (char*)"Judge", IPS_SIZE, MAGENTA|YELLOW, PURITY);
-			else IPS_ShowString(110, IPS_SIZE*3, (char*)"hhh", IPS_SIZE, CYAN, PURITY);
-//			
-//			if(MonitorData.Cloud_Yaw_OutofContact)
-//				IPS_ShowString(110, IPS_SIZE*4, (char*)"hhh", IPS_SIZE, MAGENTA|YELLOW, PURITY);
-//			else IPS_ShowString(110, IPS_SIZE*4, (char*)"hhh", IPS_SIZE, CYAN, PURITY);
+			if(MonitorData.ChassisJudgementOutofContact)
+			{
+				if(MonitorData.CloudJudgementRepaired)
+					IPS_ShowString(110, IPS_SIZE*3, (char*)"JudgeD", IPS_SIZE, YELLOW, PURITY);
+				else IPS_ShowString(110, IPS_SIZE*3, (char*)"JudgeD", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			}else IPS_ShowString(110, IPS_SIZE*3, (char*)"JudgeD", IPS_SIZE, CYAN, PURITY);
+			
+			if(MonitorData.TFCardOutofContact)
+				IPS_ShowString(110, IPS_SIZE*4, (char*)"TFCard", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(110, IPS_SIZE*4, (char*)"TFCard", IPS_SIZE, CYAN, PURITY);
 		}else
 		{
-			IPS_ShowString(20, 15, (char*)"CLOUD", 28, YELLOW, PURITY);
+			IPS_ShowString(5, 15, (char*)"EVERYTHING", 28, YELLOW, PURITY);
 			IPS_ShowString(40, 44, (char*)"OFFLINE", 28, YELLOW, PURITY);
 		}
 
