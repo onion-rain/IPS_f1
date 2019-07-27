@@ -174,7 +174,9 @@ int main(void)
 			
 			if(MonitorData.VisionOutofContact)
 				IPS_ShowString(110, 0, (char*)"Vision", IPS_SIZE, MAGENTA|YELLOW, PURITY);
-			else IPS_ShowString(110, 0, (char*)"Vision", IPS_SIZE, CYAN, PURITY);
+			else if(MonitorData.BuffCamOutofContact)
+				IPS_ShowString(110, 0, (char*)"BufCam", IPS_SIZE, MAGENTA|YELLOW, PURITY);
+			else IPS_ShowString(110, 0, (char*)"BufCam", IPS_SIZE, CYAN, PURITY);
 			
 			if(MonitorData.DbusOutofContact)
 				IPS_ShowString(110, IPS_SIZE, (char*)"Dbus", IPS_SIZE, MAGENTA|YELLOW, PURITY);

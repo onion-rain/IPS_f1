@@ -34,7 +34,8 @@ typedef struct{//从裁判系统获取到的云台需要的数据
 	uint32_t ChassisJudgementRepaired : 1;
 	
 	uint32_t TFCardOutofContact : 1;
-	uint32_t a : 15;
+	uint32_t BuffCamOutofContact : 1;
+	uint32_t a : 14;
 	
 	uint32_t b;
 }MonitorData_t;//设备在线数据
